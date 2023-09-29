@@ -2,9 +2,10 @@ import json
 import requests
 
 class ApiFunctions:
-    @staticmethod
-    def get_rosters(league_id):
-        url = f"https://api.sleeper.app/v1/league/{league_id}/rosters"
+    def __init__(self, league_id):
+        self.league_id = league_id
+    def get_rosters(self):
+        url = f"https://api.sleeper.app/v1/league/{self.league_id}/rosters"
         response = requests.request("GET", url)
         owner_lineups = response.json()
         lineups = []
@@ -16,9 +17,8 @@ class ApiFunctions:
             }
             lineups.append(user_lineup)
         return {'lineups': lineups}
-    @staticmethod
-    def get_owner_info(league_id):
-        url = f"https://api.sleeper.app/v1/league/{league_id}/users"
+    def get_owner_info(self):
+        url = f"https://api.sleeper.app/v1/league/{self.league_id}/users"
         response = requests.request("GET", url)
         data = response.json()
         owners = []

@@ -2,13 +2,13 @@ import json
 
 from api_functions import api_functions
 
-
-rosters = api_functions.ApiFunctions.get_rosters("930602680773357568")
-owners = api_functions.ApiFunctions.get_owner_info("930602680773357568")
+league = api_functions.ApiFunctions("930602680773357568")
+rosters = league.get_rosters()
+owners = league.get_owner_info()
 
 id_to_name = {owner['owner_id']: owner['display_name'] for owner in owners}
 
-player_lookup = api_functions.ApiFunctions.get_player_info('players.json')
+player_lookup = league.get_player_info('players.json')
 
 full_rosters = []
 for owner in rosters['lineups']:
