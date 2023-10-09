@@ -1,4 +1,13 @@
 import json
+import requests
+from sleeper_wrapper import Stats
+
+stats = Stats()
+
+projections = stats.get_week_projections("regular",2023,6)
+
+with open("projections.json", "w") as outfile:
+    json_string = json.dump(projections, outfile)
 
 from api_functions import api_functions
 
@@ -37,3 +46,5 @@ for owner in rosters['lineups']:
 
 with open("lineups.json", "w") as outfile:
     json_string = json.dump(full_rosters, outfile)
+
+
