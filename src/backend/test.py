@@ -4,7 +4,7 @@ from sleeper_wrapper import Stats
 
 stats = Stats()
 
-projections = stats.get_week_projections("regular",2023,6)
+projections = stats.get_all_projections("regular",2023)
 
 with open("projections.json", "w") as outfile:
     json_string = json.dump(projections, outfile)
@@ -26,18 +26,43 @@ for owner in rosters['lineups']:
         if starter != '0':
             starter_info = player_lookup[starter]
             if starter_info['position'] == "DEF":
-                starters.append(starter_info["team"])
+                starters.append(
+                        {   
+                            "name" : starter_info["team"],
+                            "id" : starter,
+                            "projections": projections[starter]
+                        }
+                    )
             else:
-                starters.append(starter_info['full_name'])
+                starters.append(
+                        {
+                            "name" : starter_info['full_name'],
+                            "id" : starter,
+                            "projections": projections[starter]
+                        }
+                    )
     players = []
     for player in owner['players']:
         if player != '0':
             player_info = player_lookup[player]
             if player_info['position'] == "DEF":
-                players.append(player_info["team"])
+                players.append(
+                        {   
+                            "name" : player_info["team"],
+                            "id" : player,
+                            "projections": projections[player]
+                        }
+                    )
             else:
-                players.append(player_info['full_name'])
-    results ={
+                players.append(
+                        {
+                            "name" : player_info['full_name'],
+                            "id" : player,
+                            "projections": projections[player]
+                        }
+                    )
+    results = {
+        'id': owner['owner_id'],
         'name': id_to_name[owner['owner_id']],
         'starters': starters,
         'players': players
